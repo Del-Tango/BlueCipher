@@ -209,9 +209,12 @@ def write2file(*args, file_path=str(), mode='w', **kwargs):
             as active_file:
         content = ''
         for line in args:
-            content = content + str(line) + '\n'
+            content = content + (
+                str(line) if '\n' in line else str(line) + '\n'
+            )
         for line_key in kwargs:
-            content = content + str(line_key) + '=' + str(kwargs[line_key]) + '\n'
+            content = content + \
+                str(line_key) + '=' + str(kwargs[line_key]) + '\n'
         try:
             active_file.write(content)
         except UnicodeError as e:
@@ -241,7 +244,8 @@ def build_key_file(**context):
         if not cache_key:
             continue
         content = text_file_cache[cache_key[0]]
-        build = build + content
+        build = build + content + ['\n']
+    build = [item.rstrip('\n') if item != '\n' else item for item in build[:-1]]
     text_file_cache.update({context.get('keytext_file'): build})
     keytext_file_cache = build
     return write2file(*build, file_path=context.get('keytext_file'))
@@ -258,7 +262,9 @@ def cache_page_characters(**context):
                 character = keyfile_line_cache[page][line][index].lower()
                 if character in ('\n'):
                     continue
-                code = f'{page}-{line}-{index}'
+
+                code = f'{page}-{line}-''%s' % str(index + 1)
+
                 if character not in line_characters:
                     line_characters.update({character: [code]})
                 else:
