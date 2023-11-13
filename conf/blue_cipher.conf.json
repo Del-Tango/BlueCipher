@@ -1,0 +1,14 @@
+{
+    "keytext_dir":                "text",
+    "keytext_file":               "bc_key.txt",
+    "cleartext_file":             "bc_clear.txt",
+    "ciphertext_file":            "bc_cipher.txt",
+    "report_file":                "bc_report.dump",
+    "running_mode":               "cleanup",
+    "data_source":                "file",
+    "keycode":                    "123456",
+    "cleanup":                    ["keytext_file"],
+    "full_cleanup":               ["keytext_file","cleartext_file","ciphertext_file","report_file"],
+    "report":                     true,
+    "silent":                     false
+}
