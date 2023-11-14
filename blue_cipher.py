@@ -57,18 +57,20 @@ import optparse
 import os
 import glob
 import json
-import pysnooper
+#import pysnooper
 
-SCRIPT_NAME='BlueCipher'
-VERSION='1.0'
-VERSION_NAME='Orbital'
+SCRIPT_NAME = 'BlueCipher'
+VERSION = '1.0'
+VERSION_NAME = 'Orbital'
+CURRENT_DIR = os.getcwd()
 CONFIG = {
     'config_file': '',
-    'keytext_dir': 'text',
-    'keytext_file': 'bc_key.txt',
-    'cleartext_file': 'bc_clear.txt',
-    'ciphertext_file': 'bc_cipher.txt',
-    'report_file': 'bc_report.dump',
+    'current_dir': CURRENT_DIR,
+    'keytext_dir': '%s/text' % CURRENT_DIR,
+    'keytext_file': '%s/bc_key.txt' % CURRENT_DIR,
+    'cleartext_file': '%s/bc_clear.txt' % CURRENT_DIR,
+    'ciphertext_file': '%s/bc_cipher.txt' % CURRENT_DIR,
+    'report_file': '%s/bc_report.dump' % CURRENT_DIR,
     'running_mode': 'decrypt',                                                  # <decrypt|encrypt>
     'data_source': 'file',                                                      # <file|terminal>
     'keycode': '123456',                                                        # Order of concatenated keytext chapter files
@@ -188,19 +190,19 @@ def check_preconditions(**conf):
     for fl in file_paths + dir_paths + requirements:
         if not conf.get(fl):
             errors.append('Attribute (%s) not set' % fl)
-    if conf.get('running_mode').lower() == 'encrypt' \
+    if conf.get('running_mode', '').lower() == 'encrypt' \
             and conf.get('data_source') != 'terminal':
         if not os.path.exists(conf.get('cleartext_file')):
             errors.append(
                 'Cleartext file (%s) not found' % conf.get('ciphertext_file')
             )
-    elif conf.get('running_mode').lower() == 'decrypt' \
+    elif conf.get('running_mode', '').lower() == 'decrypt' \
             and conf.get('data_source') != 'terminal':
         if not os.path.exists(conf.get('ciphertext_file')):
             errors.append(
                 'Ciphertext file (%s) not found' % conf.get('ciphertext_file')
             )
-    if conf.get('running_mode').lower() not in ('encrypt', 'decrypt', 'cleanup'):
+    if conf.get('running_mode', '').lower() not in ('encrypt', 'decrypt', 'cleanup'):
         errors.append(
             'Invalid running mode specified (%s)' % conf.get('running_mode')
         )
@@ -224,6 +226,8 @@ def load_config(file_path):
 
 #@pysnooper.snoop()
 def scan_directory_for_key_files(dir_path):
+    if not dir_path:
+        return False
     directory_path = os.path.join(dir_path, '*.txt')
     text_files = [
         os.path.basename(fl) for fl in glob.glob(directory_path)
@@ -799,49 +803,64 @@ def init_file_running_mode(**conf):
     return action_result['exit']
 
 #@pysnooper.snoop()
-def init(**conf):
+def init():
+    global CONFIG
     global action_result
-    stdout_msg(
-        '[ INIT ]: %s v%s %s' % (SCRIPT_NAME, VERSION, VERSION_NAME),
-        silence=CONFIG.get('silent')
-    )
-    if conf.get('running_mode').lower() == 'cleanup':
-        clean = cleanup(full=True, **conf)
-        return action_result['exit']
-    load = load_text_files(**conf)
-    lock_n_load = setup(**conf)
-    check = check_preconditions(**conf)
-    if not check:
-        details = action_result.get('msg', '')
-        action_result.update({
-            'msg': 'Action preconditions check failed for running mode '\
-                '%s. Details: %s' % (conf.get('running_mode'), details),
-            'exit': 1,
-        })
-        return action_result['exit']
-    if not cli_parse or conf.get('data_source').lower() == 'terminal':
-        run = init_terminal_running_mode(**conf)
-    else:
-        run = init_file_running_mode(**conf)
-    return action_result['exit']
-
-if __name__ == '__main__':
     display_header(**CONFIG)
     cli_parse = parse_cli_args(**CONFIG)
     CONFIG['data_source'] = 'terminal' if not cli_parse \
         and not CONFIG['data_source'] else 'file'
+    stdout_msg(
+        '[ INIT ]: %s v%s %s' % (SCRIPT_NAME, VERSION, VERSION_NAME),
+        silence=CONFIG.get('silent')
+    )
     try:
-        EXIT_CODE = init(**CONFIG)
+        if CONFIG.get('running_mode', '').lower() == 'cleanup':
+            stdout_msg(
+                '[ ACTION ]: Cleaning up files from disk...',
+                silence=CONFIG.get('silent')
+            )
+            clean = cleanup(full=True, **CONFIG)
+            stdout_msg(
+                'Terminating with exit code (%s)' % str(action_result['exit']),
+                silence=CONFIG.get('silent'), done=True
+            )
+            exit(action_result['exit'])
+        load = load_text_files(**CONFIG)
+        lock_n_load = setup(**CONFIG)
+        check = check_preconditions(**CONFIG)
+        if not check:
+            details = action_result.get('msg', '')
+            action_result.update({
+                'msg': 'Action preconditions check failed for running mode '\
+                    '%s. Details: %s' % (CONFIG.get('running_mode'), details),
+                'exit': 1,
+            })
+            exit(action_result['exit'])
+        if not cli_parse or CONFIG.get('data_source').lower() == 'terminal':
+            run = init_terminal_running_mode(**CONFIG)
+        else:
+            run = init_file_running_mode(**CONFIG)
     except Exception as e:
-        EXIT_CODE = 10
-        action_result.update({'exit': EXIT_CODE, 'msg': str(e)})
+        action_result.update({'msg': str(e), 'exit': 10})
     finally:
         if CONFIG.get('cleanup'):
             clean = cleanup(**CONFIG)
         if CONFIG.get('report'):
             report = report_action_result(action_result, **CONFIG)
             if not report:
-                EXIT_CODE = 20
-    stdout_msg('Terminating with exit code (%s)' % str(EXIT_CODE), done=True)
-    exit(EXIT_CODE)
+                action_result.update({
+                    'msg': 'Failed to generate report %s'
+                        % CONFIG.get('report_file'),
+                    'exit': 20,
+                })
+    print(); stdout_msg(
+        'Terminating with exit code (%s)' % str(action_result['exit']),
+        silence=CONFIG.get('silent'), done=True
+    )
+    exit(action_result['exit'])
+
+
+if __name__ == '__main__':
+    init()
 

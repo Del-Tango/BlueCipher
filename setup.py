@@ -1,18 +1,19 @@
 #!/usr/bin/env python
-
-# TODO - Make consumable artifact
+#
+# Excellent Regards, the Alveare Solutions #!/Society -x
+#
+# Building...
 
 import sys
 import os
 import pkgutil
+#import pysnooper
 
 from setuptools import setup, find_packages
 
 SCRIPT_NAME = 'bluecipher'
 VERSION = '1.0'
-VERSION_NAME = 'Orbital'
 conf_path = 'conf/blue_cipher.conf.json'
-# [ NOTE ]: Directory where this file is located
 root_dir = os.path.abspath(os.path.dirname(__file__))
 
 #@pysnooper.snoop()
@@ -45,7 +46,7 @@ if __name__ == '__main__':
     setup_info = {
         'name': SCRIPT_NAME,
         'version': VERSION,
-        'author': 'Alveare Solutions #!/Society -x',
+        'author': '#!/Society -x',
         'author_email': 'alveare.solutions@gmail.com',
         'url': 'https://github.com/Del-Tango/',
         'download_url': '',
@@ -71,18 +72,16 @@ if __name__ == '__main__':
             'Programming Language :: Python :: 3.11',
             'Topic Encryption :: Decryption :: Security :: Utils :: Scripts',
         ],
-        # Package info
         'packages': find_packages(),
         'package_data': {SCRIPT_NAME: [conf_path]},
-        # Add _ prefix to the names of temporary build dirs
         'options': {'build': {'build_base': '_build'}},
         'zip_safe': True,
         'install_requires': ['async'],
         'entry_points': {
-        'console_scripts': [
-            '%s=blue_cipher.app:init' % SCRIPT_NAME,
-        ]
-    },
+            'console_scripts': [
+                '%s=bluecipher.blue_cipher:init' % SCRIPT_NAME,
+            ]
+        }
     }
     add_package_dir_to_path()
     setup(**setup_info)

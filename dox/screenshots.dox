@@ -1,0 +1,26 @@
+#!/bin/bash
+#
+# Excellent Regards, the Alveare Solutions #!/Society -x
+#
+# Screenshot Viewer
+
+SCREENSHOTS_DIR="screenshots"
+
+function view_images_in_directory() {
+    local DIR_PATH="$1"
+    fim --cd-and-readdir ${DIR_PATH}
+    return $?
+}
+
+cat <<EOF
+    ___________________________________________________________________________
+
+     *                        *  Screenshot Viewer  *                        *
+    ______________________________________________________v1.0ThousandWords____
+               Excellent Regards, the Alveare Solutions #!/Society -x
+
+EOF
+
+view_images_in_directory "${SCREENSHOTS_DIR}"
+exit $?
+
