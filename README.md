@@ -106,7 +106,7 @@ you've gotten yourself into;
       any arguments;
 
 
-Play nice, Play HARD, and enjoy the gamification of a brighter world.
+Play nice, SM:Art and HARD - and enjoy the gamification of a brighter world.
 
 Excellent Regards,
 
