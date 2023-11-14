@@ -1,6 +1,6 @@
 **BlueCipher - Encryption/Decryption**
 
-[ DESCRIPTION ]: Book Cipher Automation
+[ DESCRIPTION ]: Book Cipher Automation Tool
 
 Book ciphers are an old-school, slow and string style of encryption that maps
 each character in a message to three numbers - the page number, line number on
