@@ -2,7 +2,7 @@
 #
 # Excellent Regards, the Alveare Solutions #!/Society -x
 #
-# BlueCipher Build WizZard
+# Build WizZard
 
 declare -a DEPENDENCIES
 declare -a BUILD_DIRS

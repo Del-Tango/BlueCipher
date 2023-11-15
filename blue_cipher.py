@@ -519,6 +519,7 @@ def display2terminal(*lines, result=False, **context):
         )
     else:
         stdout_msg('\n'.join(lines) + '\n', silence=context.get('silent'))
+    print()
     return True
 
 #@pysnooper.snoop()
