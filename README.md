@@ -1,6 +1,6 @@
 **BlueCipher - Encryption/Decryption**
 
-[ *DESCRIPTION* ]: Book Cipher Automation Tool
+[ **DESCRIPTION** ]: Book Cipher Automation Tool
 
 Book ciphers are an old-school, slow and string style of encryption that maps each character in a message to three numbers - the page number, line number on that page, and character number on that line. BC uses the following format:
 
@@ -8,7 +8,7 @@ Book ciphers are an old-school, slow and string style of encryption that maps ea
 
     [ Ex ]: 10-7-23,11-12-8,...
 
-[ *NOTE* ]: The <character> segment of the code can be anything at that coordinate in the keytext file, case sensitive and including whitespaces for a more accurate transimition.
+[ **NOTE** ]: The <character> segment of the code can be anything at that coordinate in the keytext file, case sensitive and including whitespaces for a more accurate transimition.
 
 BlueCipher automates the decryption of ciphertext or encryption of cleartext from both a CLI menu and using input/output files on the basis of a auto-generated keytext file created by concatonating chapter files in a order dictated by the keycode.
 
@@ -22,9 +22,9 @@ As with everything there are tradeoffs, but the design decessions make it -
 
 * Use keytext that can be randomly generated or actual segments of a known book (that the cryptographer doesn't even need to know how to read);
 
-[ *BONUS* ]: Book ciphers can be also be used in that offline meatspace, although encryption and decryption would be at the speed of a Covert Tazmanian Snail - weather this should mean anything to you or not depends on what kind of games you've gotten yourself into;
+[ **BONUS** ]: Book ciphers can be also be used in that offline meatspace, although encryption and decryption would be at the speed of a Covert Tazmanian Snail - weather this should mean anything to you or not depends on what kind of games you've gotten yourself into;
 
-[ *EXAMPLES* ]: Running as a standalone script
+[ **EXAMPLES** ]: Running as a standalone script
 
     [ Ex ]: Run in interactive mode using the terminal as a data source
 
@@ -55,7 +55,7 @@ As with everything there are tradeoffs, but the design decessions make it -
 
         ~$ ./blue_cipher.py --action cleanup --silent
 
-[ *EXAMPLES* ]: Building consumable artifact
+[ **EXAMPLES** ]: Building consumable artifact
 
     [ Ex ]: Cleanup build files with no manual interaction, install dependencies, ensure project file structure, build Python3 package and install it in a virtual environment using pip -
 
@@ -65,7 +65,7 @@ As with everything there are tradeoffs, but the design decessions make it -
 
         ~$ ./build.sh --test
 
-[ *EXAMPLES* ]: Running as a system util (requires package build and install)
+[ **EXAMPLES** ]: Running as a system util (requires package build and install)
 
     [ Ex ]: Run in interactive mode using the terminal as a data source
 
@@ -75,7 +75,7 @@ As with everything there are tradeoffs, but the design decessions make it -
 
         ~$ bluecipher --konfig-file conf/blue_cipher.conf.json
 
-[ *Q/A* ]: Did YOU Know??
+[ **Q/A** ]: Did YOU Know??
 
 * Chapter files used in building the keytext file require a .txt extension, and are usually numbered in order to create a short keycode;
 
