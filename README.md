@@ -14,13 +14,13 @@ BlueCipher automates the decryption of ciphertext or encryption of cleartext fro
 
 As with everything there are tradeoffs, but the design decessions make it -
 
-    * Light weight and highly portable as a single python file;
+* Light weight and highly portable as a single python file;
 
-    * OS agnostic - packaged in such a way that it can be run like a standalone script on Windows machines as well as an installable consumable package for pip (that can be build locally using the Build WizZard script) on Linux;
+* OS agnostic - packaged in such a way that it can be run like a standalone script on Windows machines as well as an installable consumable package for pip (that can be build locally using the Build WizZard script) on Linux;
 
-    * Simple to use and to understand, even for your tech savy grandma ;)
+* Simple to use and to understand, even for your tech savy grandma ;)
 
-    * Use keytext that can be randomly generated or actual segments of a known book (that the cryptographer doesn't even need to know how to read);
+* Use keytext that can be randomly generated or actual segments of a known book (that the cryptographer doesn't even need to know how to read);
 
 [ BONUS ]: Book ciphers can be also be used in that offline meatspace, although encryption and decryption would be at the speed of a Covert Tazmanian Snail - weather this should mean anything to you or not depends on what kind of games you've gotten yourself into;
 
@@ -77,11 +77,11 @@ As with everything there are tradeoffs, but the design decessions make it -
 
 [ Q/A ]: Did YOU Know??
 
-    * Chapter files used in building the keytext file require a .txt extension, and are usually numbered in order to create a short keycode;
+* Chapter files used in building the keytext file require a .txt extension, and are usually numbered in order to create a short keycode;
 
-    * The maximum length of the keycode is dictated by the number of chapter files available, and contains the names of the files in a certain order without the extension .txt;
+* The maximum length of the keycode is dictated by the number of chapter files available, and contains the names of the files in a certain order without the extension .txt;
 
-    * The keytext is cached in its entirety before encrypting or decrypting, which is not optimal when running in a file base mode, but helps when the data source is the CLI menu used when running the script without any arguments;
+* The keytext is cached in its entirety before encrypting or decrypting, which is not optimal when running in a file base mode, but helps when the data source is the CLI menu used when running the script without any arguments;
 
 
 Excellent Regards,
