@@ -4,55 +4,6 @@
 #
 # Blue Cipher Enryptor/Decryptor
 
-# [ DESCRIPTION ]: Book Cipher Automation #####################################
-#
-#   Book ciphers are an old-school, slow and string style of encryption that
-#   maps each character in a message to three numbers - the page number, line
-#   number on that page, and character number on that line. BC uses the format
-#   <page>-<line>-<character>. Example: 10-7-23,11-12-8,...
-#
-#   BC automates the decryption of ciphertext or encryption of cleartext from
-#   both a CLI menu and using input/output files on the basis of a
-#   auto-generated keytext file created by concatonating chapter files in a
-#   order dictated by the keycode.
-#
-#   As with everything there are tradeoffs, but the design decessions make it -
-#
-#       * Light weight and highly portable as a standalone Python file;
-#
-#       * Packaged in such a way that it can be run like a standalone script on
-#         Windows machines as well as an installable consumable package for pip
-#         (that can be build locally using the Build WizZard script) on Linux;
-#
-#       * OS agnostic - again - can be run on both Linux and Windows machines;
-#
-#       * Simple to use and to understand, even for your tech savy grandma ;)
-#
-#       * Use keytext that can be randomly generated or actual segments of a
-#         known book (that the cryptographer doesn't even need to know how to
-#         read, it can just be used as a key);
-#
-#   [ BONUS ]: Book ciphers can be also be used offline in meatspace, although
-#   encryption and decryption would be at the speed of a Covert Tazmanian Snail -
-#   weather this should mean anything to you or not depends on what kind of games
-#   you've gotten yourself into;
-#
-#   [ Q/A ]: Did YOU Know??
-#
-#       * Chapter files used in building the keytext file require a .txt
-#         extension, and are usually numbered in order to create a short keycode;
-#
-#       * The maximum length of the keycode is dictated by the number of chapter
-#         files available, and contains the names of the files in a certain order
-#         without the extension .txt;
-#
-#       * The keytext is cached in its entirety before encrypting or decrypting,
-#         which is not optimal when running in a file base mode, but helps when
-#         the data source is the CLI menu used when running the script without
-#         any arguments;
-#
-###############################################################################
-
 import optparse
 import os
 import glob
@@ -66,7 +17,7 @@ CURRENT_DIR = os.getcwd()
 CONFIG = {
     'config_file': '',
     'current_dir': CURRENT_DIR,
-    'keytext_dir': '%s/text' % CURRENT_DIR,
+    'keytext_dir': '%s/dta/text' % CURRENT_DIR,
     'keytext_file': '%s/bc_key.txt' % CURRENT_DIR,
     'cleartext_file': '%s/bc_clear.txt' % CURRENT_DIR,
     'ciphertext_file': '%s/bc_cipher.txt' % CURRENT_DIR,
@@ -507,7 +458,7 @@ ________________________________________________________v%s%s____________''' % (
 #@pysnooper.snoop()
 def display2terminal(*lines, result=False, **context):
     if (not lines and not result) or context.get('silent'):
-        return False
+        return True
     if result:
         stdout_msg(
             '[ %s ]: %s Action Result' % (
@@ -592,7 +543,7 @@ def add_command_line_parser_options(parser):
             'Default: ./bc_cipher.txt'
     )
     parser.add_option(
-        '-d', '--text-dir', dest='keytext_dir', type='string',
+        '-d', '--keytext-dir', dest='keytext_dir', type='string',
         help='Path to the directory containing key text files. Default: ./text'
     )
     parser.add_option(

@@ -37,7 +37,7 @@ function display_usage() {
   ___________________________________________________v${VERSION_NO}${VERSION}_____________
               Excellent Regards, the Alveare Solutions #!/Society -x
 
-    [ Usage ]: ~$ $0 (BUILD | INSTALL | PUBLISH)
+    [ Usage ]: ~$ $0 (BUILD | INSTALL)
 
         -h  | --help                 Display this message.
 
@@ -132,7 +132,8 @@ function install() {
 }
 
 function cleanup() {
-    echo "[ CLEANING ]: Project directory for Ricks..."
+    echo "[ CLEANING ]: Project directory for Ricks...
+    "
     local FAILURES=0
     echo "[ ... ]: Compiled Python __pycache__ directories"
     if ! rm -rf $(find . -type d -name '__pycache__'); then
@@ -199,7 +200,7 @@ for opt in "${@}"; do
         ;;
     -t | --test)
         MODE='TEST'
-        python3 -m unittest
+        ${VENV_DIR}/bin/python3 -m pytest -v
         EXIT_CODE=$((EXIT_CODE + $?))
         ;;
     -c | --cleanup)

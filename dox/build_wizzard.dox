@@ -11,7 +11,7 @@ cat <<EOF
   ___________________________________________________v1.0SpeedBall_____________
               Excellent Regards, the Alveare Solutions #!/Society -x
 
-    [ Usage ]: ~$ ./build.sh (BUILD | INSTALL | PUBLISH)
+    [ Usage ]: ~$ ./build.sh (BUILD | INSTALL)
 
         -h  | --help                 Display this message.
 
