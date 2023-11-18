@@ -8,7 +8,7 @@ import optparse
 import os
 import glob
 import json
-#import pysnooper
+import pysnooper
 
 SCRIPT_NAME = 'BlueCipher'
 VERSION = '1.0'
@@ -278,6 +278,8 @@ def build_key_file(**context):
 #@pysnooper.snoop()
 def cache_page_characters(**context):
     global keyfile_line_cache                                                   # {'1': {'1': ['line', 'text', ...], '2': [], ...}, '2': {}, ...}
+    global cleartext_cache
+    global ciphertext_cache
     cleartext_cache, ciphertext_cache, line_characters = {}, {}, {}
     for page in keyfile_line_cache:
         for line in keyfile_line_cache[page]:
