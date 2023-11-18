@@ -1,0 +1,50 @@
+#!/bin/bash
+#
+# Excellent Regards, the Alveare Solutions #!/Society -x
+#
+# Blue Cipher
+
+cat <<EOF
+  _____________________________________________________________________________
+
+    *                          *  Build WizZard  *                          *
+  ___________________________________________________v1.0SpeedBall_____________
+              Excellent Regards, the Alveare Solutions #!/Society -x
+
+    [ Usage ]: ~$ ./build.sh (BUILD | INSTALL | PUBLISH)
+
+        -h  | --help                 Display this message.
+
+        -s  | --setup                Install build dependencies.
+
+        -t  | --test                 Run autotesters.
+
+        -c  | --cleanup              Cleanup project directory. Removes directories
+            |                        created during the build process, removes
+            |                        compiled python __pycache__'s, the mypy cahe
+            |                        and overwrites all log files with a timestamp.
+
+        -y  | --yes                  Skips all user interactive prompts.
+
+    [ Example ]: Install dependencies -
+
+        ~$ sudo ./build.sh --setup
+
+    [ Example ]: Run autotesters and check type hints in source files -
+
+        ~$ ./build.sh --test --cleanup -y
+
+    [ Example ]: Build the source and binary distributions -
+
+        ~$ ./build.sh
+        ~$ ./build.sh BUILD
+
+        [ NOTE ]: Build is set as the default, so it doesn't need to be
+            specified unless this build wizzard script is modified.
+
+    [ Example ]: Build distributions and install source -
+        ~$ ./build.sh BUILD INSTALL
+
+    [ Example ]: Time saver -
+        ~$ ./build.sh --cleanup -y --setup --test BUILD INSTALL; bluecipher
+EOF

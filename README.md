@@ -2,7 +2,7 @@
 
 [ **DESCRIPTION** ]: Book Cipher Automation Tool
 
-Book ciphers are an old-school, slow and string style of encryption that maps each character in a message to three numbers - the page number, line number on that page, and character number on that line. BC uses the following format:
+Book ciphers are an old-school, slow and strong style of encryption that maps each character in a message to three numbers - the page number, line number on that page, and character number on that line. BC uses the following format:
 
     [ FORMAT ]: <page>-<line>-<character>
 
@@ -77,11 +77,11 @@ As with everything there are tradeoffs, but the design decessions make it -
 
 [ **Q/A** ]: Did YOU Know??
 
-* Chapter files used in building the keytext file require a .txt extension, and are usually numbered in order to create a short keycode;
+* Chapter files used in building the keytext file require a .txt extension, and are usually numbered in order to create a shorter keycode;
 
-* The maximum length of the keycode is dictated by the number of chapter files available, and contains the names of the files in a certain order without the extension .txt;
+* The maximum length of the keycode is dictated by the number of chapter files available, and contains the names of the files in a certain order without their extension (.txt);
 
-* The keytext is cached in its entirety before encrypting or decrypting, which is not optimal when running in a file base mode, but helps when the data source is the CLI menu used when running the script without any arguments;
+* The keytext is cached in its entirety before encrypting or decrypting, which is not optimal when running in a file based running mode, but helps when the data source is the CLI menu used when running the script without any arguments;
 
 
 Excellent Regards,

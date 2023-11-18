@@ -1,0 +1,103 @@
+#!/bin/bash
+#
+# Excellent Regards, the Alveare Solutions #!/Society -x
+#
+# Blue Cipher
+
+cat <<EOF
+_______________________________________________________________________________
+
+                                 Book Ciphers
+_______________________________________________________________________________
+            Excellent Regards, the Alveare Solutions #!/Society -x
+
+[ DESCRIPTION ]: A book cipher is a type of cryptographic scheme that uses a
+    book or other text as the key for encoding and decoding messages. It relies
+    on the fact that both the sender and receiver have the same edition of a
+    particular book. Here's a detailed description, instructions, and examples
+    of how to use book ciphers:
+
+[ INFO ]: How Book Ciphers Work:
+
+    1. Choosing a Book:
+
+    Both the sender and receiver must have an identical copy of the same book.
+    The book should be widely available to avoid suspicion.
+
+    2. Selecting Key Phrases:
+
+    Key phrases are chosen from the book to encode the message.
+    These can be words, sentences, or a combination of both.
+
+    3. Encoding:
+
+    Each word or phrase in the message is replaced with a corresponding word or
+    phrase from the book. Typically, a notation is used to indicate the location
+    of the word or phrase in the book (e.g., page number, line number, word number).
+
+    4. Decoding:
+
+    The recipient, who has the same book, uses the encoded message and the key
+    phrases to reverse the process and reveal the original message.
+
+[ INFO ]: Instructions:
+
+    1. Choose a Book:
+
+    Ensure both parties have the same edition of the chosen book.
+
+    2. Agree on Key Phrases:
+
+    Decide on a set of key phrases that will be used for encoding and decoding.
+    Establish a convention for representing the location of each word or phrase
+    in the book.
+
+    3. Encode the Message:
+
+    Replace each word or phrase in the message with the corresponding words or
+    phrases from the book, using the agreed-upon notation.
+
+    4. Send the Encoded Message:
+
+    Transmit the encoded message to the recipient.
+
+    5. Decode the Message:
+
+    The recipient, using the same book and key phrases, decodes the message to
+    reveal the original content.
+
+[ EXAMPLE ]: Bible Book Cipher -
+
+    * Book Selection:
+
+        * Bible (New Testament)
+        * Both the sender and receiver have the same edition of the Bible.
+
+    * Key Phrases:
+
+        "Jesus" corresponds to the book, chapter, and verse where the word is found.
+        "Faith" corresponds to another location in the Bible.
+
+    * Message:
+
+        "The secret meeting is at midnight."
+
+    * Encoded Message:
+
+        John 3:16 | Romans 10:17 | Matthew 26:34 | Acts 2:42 | Revelation 12:11 | Matthew 25:6
+
+    * Decoded Message:
+
+        "The secret meeting is at midnight."
+
+    * Considerations:
+
+        * For security, avoid using well-known books or texts.
+        * It's crucial to keep the choice of book and key phrases secret.
+        * Regularly update the key phrases or choose a new book to maintain security.
+
+    [ NOTE ]: In this example, each word in the message is replaced by a reference
+        to a specific verse in the Bible. The recipient, who knows the agreed-upon
+        key phrases and has the same edition of the Bible, can decode the message
+        and reveal its original content.
+EOF

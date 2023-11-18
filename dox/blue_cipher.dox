@@ -1,0 +1,64 @@
+#!/bin/bash
+#
+# Excellent Regards, the Alveare Solutions #!/Society -x
+#
+# Blue Cipher
+
+cat <<EOF
+_______________________________________________________________________________
+
+  *               *             *  BlueCipher  *              *             *
+________________________________________________________v1.0Orbital____________
+              Excellent Regards, the Alveare Solutions #!/Society -x
+
+Usage: BlueCipher Encryption/Decryption -
+
+    [ Ex ]: Terminal based running mode
+       ~$ blue_cipher.py
+
+    [ Ex ]: File based running mode decryption
+       ~$ blue_cipher.py \\
+           --action decrypt \\
+           --key-code 123456 \\
+           --ciphertext-file bc_cipher.txt \\
+           --keytext-dir text
+
+    [ Ex ]: File based running mode encryption with no STDOUT
+       ~$ blue_cipher.py \\
+           --action encrypt \\
+           --key-code 123456 \\
+           --cleartext-file bc_clear.txt \\
+           --keytext-dir text \\
+           --silent
+
+   [ Ex ]: Run with context data from JSON config file
+       ~$ blue_cipher.py \\
+           --konfig-file conf/blue_cipher.conf.json
+
+   [ Ex ]: Cleanup all generated files from disk
+       ~$ blue_cipher.py \\
+           --action cleanup
+
+Options:
+  -h, --help            show this help message and exit
+  -a RUNNING_MODE, --action=RUNNING_MODE
+                        Specify the desired action. Options:
+                        <encrypt|decrypt|cleanup>
+  -k KEYCODE, --key-code=KEYCODE
+                        Specify password for text key.
+  -c CLEARTEXT_FILE, --cleartext-file=CLEARTEXT_FILE
+                        Path to the output or input (depends on action)
+                        cleartext file. Default: ./bc_clear.txt
+  -C CIPHERTEXT_FILE, --ciphertext-file=CIPHERTEXT_FILE
+                        Path to the output or input (depends on action)
+                        ciphertext file. Default: ./bc_cipher.txt
+  -d KEYTEXT_DIR, --text-dir=KEYTEXT_DIR
+                        Path to the directory containing key text files.
+                        Default: ./text
+  -s DATA_SOURCE, --data-src=DATA_SOURCE
+                        Specify if the input data source. Options:
+                        <file|terminal>, Default: file
+  -K CONFIG_FILE, --konfig-file=CONFIG_FILE
+                        Path to the BlueCipher configuration file.
+  -S, --silent          Run with no STDOUT output. Implies a file data source.
+EOF
