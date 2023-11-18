@@ -485,7 +485,7 @@ def display_header(**context):
 #@pysnooper.snoop()
 def create_command_line_parser():
     parser = optparse.OptionParser(
-        'BlueCipher Encryption/Decryption -\n\n'
+        format_header() + '\n[ DESCRIPTION ]: BlueCipher Encryption/Decryption -\n\n'
         '    [ Ex ]: Terminal based running mode\n'
         '       ~$ %prog \n\n'
         '    [ Ex ]: File based running mode decryption\n'
@@ -758,10 +758,10 @@ def init_file_running_mode(**conf):
 def init():
     global CONFIG
     global action_result
-    display_header(**CONFIG)
     cli_parse = parse_cli_args(**CONFIG)
     CONFIG['data_source'] = 'terminal' if not cli_parse \
         and not CONFIG['data_source'] else 'file'
+    display_header(**CONFIG)
     stdout_msg(
         '[ INIT ]: %s v%s %s' % (SCRIPT_NAME, VERSION, VERSION_NAME),
         silence=CONFIG.get('silent')

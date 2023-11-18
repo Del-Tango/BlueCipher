@@ -1,5 +1,6 @@
 import pytest
 import json
+import os
 
 from tst.conftest import shell_cmd, CONFIG
 from blue_cipher import write2file
@@ -21,9 +22,6 @@ def test_file_base_decryption_from_cli(bc_setup_teardown, bc_decryption_cmd,
         *decryption_data, file_path=CONFIG['ciphertext_file'], mode='w'
     )
     out, err, exit = shell_cmd(' '.join(cmd))
-
-    print(f'[ DEBUG ]: {out}, {err}, {exit}')
-
     assert exit == 0
 
 def test_file_base_decryption_from_cli_silently(bc_setup_teardown, bc_decryption_cmd,
@@ -43,10 +41,6 @@ def test_file_base_decryption_from_cli_silently(bc_setup_teardown, bc_decryption
         *decryption_data, file_path=CONFIG['ciphertext_file'], mode='w'
     )
     out, err, exit = shell_cmd(' '.join(cmd))
-
-    print(f'[ DEBUG ]: {out}, {err}, {exit}')
-
-
     assert exit == 0
 
 def test_file_base_decryption_from_cli_reported(bc_setup_teardown, bc_decryption_cmd,
@@ -66,11 +60,8 @@ def test_file_base_decryption_from_cli_reported(bc_setup_teardown, bc_decryption
         *decryption_data, file_path=CONFIG['ciphertext_file'], mode='w'
     )
     out, err, exit = shell_cmd(' '.join(cmd))
-
-    print(f'[ DEBUG ]: {out}, {err}, {exit}')
-
-
     assert exit == 0
+    assert os.path.exists(CONFIG['report_file'])
 
 def test_file_base_decryption_from_config(bc_setup_teardown, bc_konfig_cmd,
                                           decryption_data, conf_json):
@@ -82,9 +73,5 @@ def test_file_base_decryption_from_config(bc_setup_teardown, bc_konfig_cmd,
         *decryption_data, file_path=CONFIG['ciphertext_file'], mode='w'
     )
     out, err, exit = shell_cmd(' '.join(bc_konfig_cmd))
-
-    print(f'[ DEBUG ]: {out}, {err}, {exit}')
-
-
     assert exit == 0
 
