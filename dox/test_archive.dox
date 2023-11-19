@@ -1,0 +1,48 @@
+#!/bin/bash
+#
+# Excellent Regards, the Alveare Solutions #!/Society -x
+#
+# (TAR) Test Archive
+
+cat <<EOF
+$ ./build.sh --cleanup -y --test
+  _____________________________________________________________________________
+
+    *                          *  Build WizZard  *                          *
+  ___________________________________________________v1.0SpeedBall_____________
+              Excellent Regards, the Alveare Solutions #!/Society -x
+
+[ CLEANING ]: Files, Directories and Installed Artifacts...
+
+[ ... ]: Compiled Python __pycache__ directories
+[ ... ]: Python build directories
+[ ... ]: Package directory
+[ ... ]: Python package
+Found existing installation: bluecipher 1.0
+Uninstalling bluecipher-1.0:
+  Successfully uninstalled bluecipher-1.0
+
+============================================================================================================ test session starts =============================================================================================================
+platform linux -- Python 3.11.6, pytest-7.4.3, pluggy-1.3.0 -- /home/del-tango/Projects/BlueCipher/.venv/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/del-tango/Projects/BlueCipher
+collected 15 items
+
+tst/int/test_build.py::test_build PASSED                                                                                                                                                                                               [  6%]
+tst/int/test_cleanup.py::test_cleanup PASSED                                                                                                                                                                                           [ 13%]
+tst/int/test_decryption.py::test_file_base_decryption_from_cli PASSED                                                                                                                                                                  [ 20%]
+tst/int/test_decryption.py::test_file_base_decryption_from_cli_silently PASSED                                                                                                                                                         [ 26%]
+tst/int/test_decryption.py::test_file_base_decryption_from_cli_reported PASSED                                                                                                                                                         [ 33%]
+tst/int/test_decryption.py::test_file_base_decryption_from_config PASSED                                                                                                                                                               [ 40%]
+tst/int/test_encryption.py::test_file_base_encryption_from_cli PASSED                                                                                                                                                                  [ 46%]
+tst/int/test_encryption.py::test_file_base_encryption_from_cli_silently PASSED                                                                                                                                                         [ 53%]
+tst/int/test_encryption.py::test_file_base_encryption_from_cli_reported PASSED                                                                                                                                                         [ 60%]
+tst/int/test_encryption.py::test_file_base_encryption_from_config PASSED                                                                                                                                                               [ 66%]
+tst/int/test_install.py::test_install PASSED                                                                                                                                                                                           [ 73%]
+tst/unit/test_cleanup.py::test_cleanup PASSED                                                                                                                                                                                          [ 80%]
+tst/unit/test_cleanup.py::test_full_cleanup PASSED                                                                                                                                                                                     [ 86%]
+tst/unit/test_decryption.py::test_decryption PASSED                                                                                                                                                                                    [ 93%]
+tst/unit/test_encryption.py::test_encryption PASSED                                                                                                                                                                                    [100%]
+
+============================================================================================================ 15 passed in 46.25s =============================================================================================================
+EOF

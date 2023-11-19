@@ -86,17 +86,21 @@ EOF
 function setup() {
     echo "[ SETUP ]: Dependencies..."
     local FAILURES=0
-    for package in "${DEPENDENCIES[@]}"; do
-        if ! apt-get install "${package}" -y $?; then
-            echo "[ NOK ]: Failed to install ${package}"
-            local FAILURES=$((FAILURES + 1))
-        fi
-    done
+    if [ $EUID -eq 0 ]; then
+        for package in "${DEPENDENCIES[@]}"; do
+            if ! apt-get install "${package}" -y $?; then
+                echo "[ NOK ]: Failed to install ${package}"
+                local FAILURES=$((FAILURES + 1))
+            fi
+        done
+    else
+        echo "[ WARNING ]: Superuser privileges not detected! Skipping system dependency installs."
+    fi
     if [ ! -d "${VENV_DIR}" ] && ! python3 -m venv ${VENV_DIR}; then
         echo "[ NOK ]: Failed to create virtual environment in (${VENV_DIR})"
         local FAILURES=$((FAILURES + 1))
     fi
-    if ! ${VENV_DIR}/bin/python3 -m pip install -r "${REQUIREMENTS_FILE}"; then
+    if ! ${VENV_DIR}/bin/python3 -m pip install -i 'https://pypi.python.org/simple/' -r "${REQUIREMENTS_FILE}"; then
         echo "[ NOK ]: Failed to install requirements file ${REQUIREMENTS_FILE}"
         local FAILURES=$((FAILURES + 1))
     fi
