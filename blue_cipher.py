@@ -8,7 +8,7 @@ import optparse
 import os
 import glob
 import json
-import pysnooper
+#import pysnooper
 
 SCRIPT_NAME = 'BlueCipher'
 VERSION = '1.0'
@@ -96,8 +96,8 @@ def fetch_replay_confirmation_from_user(prompt='Replay'):
         if not answer:
             continue
         if answer.lower() not in ('y', 'n', 'yes', 'no', 'yeah', 'nah'):
-            stdout_msg(
-                'Invalid answer (%s)' % answer, err=True,
+            print(); stdout_msg(
+                'Invalid answer (%s)\n' % answer, err=True,
                 silence=CONFIG.get('silent')
             )
             continue
@@ -379,7 +379,7 @@ def cache_chaptertext_file_content(*text_file_names, **context):
 
 # ACTIONS
 
-@pysnooper.snoop()
+#@pysnooper.snoop()
 def encrypt_cleartext(*data, **context) -> list:
     '''
     [ INPUT  ]: data = ['first clear text', 'second clear text', ...]
@@ -766,7 +766,7 @@ def init():
         and not CONFIG['data_source'] else 'file'
     display_header(**CONFIG)
     stdout_msg(
-        '[ INIT ]: %s v%s %s' % (SCRIPT_NAME, VERSION, VERSION_NAME),
+        "[ INIT ]: It's the Honour Of Kings to search out what the Glory Of God conceals\n",
         silence=CONFIG.get('silent')
     )
     try:
@@ -781,10 +781,7 @@ def init():
                 silence=CONFIG.get('silent'), done=True
             )
             exit(action_result['exit'])
-
-#       load = load_text_files(**CONFIG)
         lock_n_load = setup(**CONFIG)
-
         check = check_preconditions(**CONFIG)
         if not check:
             details = action_result.get('msg', '')

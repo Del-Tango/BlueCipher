@@ -9,7 +9,7 @@ declare -a BUILD_DIRS
 
 # Hot parameters
 
-MODE='BUILD' # (SETUP | TEST | BUILD | CLEANUP)
+MODE='BUILD' # (SETUP | TEST | BUILD | INSTALL | CLEANUP)
 BUILD='off'
 INSTALL='off'
 PUBLISH='off'
@@ -29,14 +29,19 @@ PACKAGE_NAME='bluecipher'
 BUILD_DIRS=('_build/' "${DISTRIBUTION_DIR}" "${PACKAGE_NAME}.egg-info/" "${PACKAGE_NAME}")
 PARENT_DIR="$(basename "$(dirname "$(realpath ./setup.py)")")"
 
-function display_usage() {
-  cat <<EOF
+function format_banner() {
+    cat <<EOF
   _____________________________________________________________________________
 
     *                          *  ${SCRIPT_NAME}  *                          *
   ___________________________________________________v${VERSION_NO}${VERSION}_____________
               Excellent Regards, the Alveare Solutions #!/Society -x
 
+EOF
+}
+
+function display_usage() {
+    cat <<EOF
     [ Usage ]: ~$ $0 (BUILD | INSTALL)
 
         -h  | --help                 Display this message.
@@ -95,19 +100,17 @@ function setup() {
         echo "[ NOK ]: Failed to install requirements file ${REQUIREMENTS_FILE}"
         local FAILURES=$((FAILURES + 1))
     fi
-    return $FAILURES
+    echo; return $FAILURES
 }
 
 function build() {
     echo "[ BUILD ]: Source and binary distributions..."
     local FAILURES=0
-    if ! mkdir ${PACKAGE_NAME}; then
-        rm -rf ${PACKAGE_NAME}
-        mkdir ${PACKAGE_NAME}
+    if ! mkdir ${PACKAGE_NAME} &> /dev/null; then
+        rm -rf ${PACKAGE_NAME} &> /dev/null
+        mkdir ${PACKAGE_NAME} &> /dev/null
     fi
-    if ! cp -r ./* ${PACKAGE_NAME} 2>/dev/null; then
-        echo "[ NOK ]: Could not create consumable artifact directory!"
-    fi
+    cp -r ./* ${PACKAGE_NAME} 2>/dev/null
     if ! ${VENV_DIR}/bin/python3 setup.py sdist; then
         local FAILURES=$((FAILURES + 1))
         echo "[ NOK ]: Could not build project source distribution!"
@@ -117,7 +120,7 @@ function build() {
     else
         echo "[ OK ]: Consumable artifact build!"
     fi
-    return $FAILURES
+    echo; return $FAILURES
 }
 
 function install() {
@@ -128,11 +131,11 @@ function install() {
     else
         echo "[ OK ]: Installed source distribution package!"
     fi
-    return 0
+    echo; return 0
 }
 
 function cleanup() {
-    echo "[ CLEANING ]: Project directory for Ricks...
+    echo "[ CLEANING ]: Files, Directories and Installed Artifacts...
     "
     local FAILURES=0
     echo "[ ... ]: Compiled Python __pycache__ directories"
@@ -157,7 +160,7 @@ function cleanup() {
     if [ $? -ne 0 ]; then
         local FAILURES=$((FAILURES + 1))
     fi
-    return $FAILURES
+    echo; return $FAILURES
 }
 
 # INIT
@@ -181,18 +184,20 @@ EXIT_CODE=0
 
 for opt in "${@}"; do
     case "$opt" in
+    -h | --help)
+        display_usage
+        exit 0
+        ;;
     -y | --yes)
         YES='on'
         ;;
     esac
 done
 
+format_banner
+
 for opt in "${@}"; do
     case "$opt" in
-    -h | --help)
-        display_usage
-        exit 0
-        ;;
     -s | --setup)
         MODE='SETUP'
         setup
