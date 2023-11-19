@@ -2,7 +2,7 @@
 
 [ **DESCRIPTION** ]: Book Cipher Automation Tool
 
-Book ciphers are an old-school, slow and strong style of encryption that maps each character in a message to three numbers - the page number, line number on that page, and character number on that line. BC uses the following format:
+Book ciphers are an old-school, slow and strong style of encryption that maps each character in a message to three numbers - the page number, line number on that page, and character number on that line. BC uses the following ciphertext format:
 
     [ FORMAT ]: <page>-<line>-<character>
 
@@ -83,6 +83,11 @@ As with everything there are tradeoffs, but the design decessions make it -
 
 * The keytext is cached in its entirety before encrypting or decrypting, which is not optimal when running in a file based running mode, but helps when the data source is the CLI menu used when running the script without any arguments;
 
+[ **NOTE** ]: For more details on how to use this damn thing along with screenshots you can read the DOX, maybe even using the dox-reader tool (*if you're brave enough*) -
+
+    [ Ex ]: Change directory and execute dox-reader tool -
+
+        ~$ cd ./dox && ./dox-reader.sh
 
 Excellent Regards,
 
