@@ -11,7 +11,7 @@ import json
 #import pysnooper
 
 SCRIPT_NAME = 'BlueCipher'
-VERSION = '1.0'
+VERSION = '1.1'
 VERSION_NAME = 'Orbital'
 CURRENT_DIR = os.getcwd()
 CONFIG = {

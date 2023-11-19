@@ -12,7 +12,7 @@ import pkgutil
 from setuptools import setup, find_packages
 
 SCRIPT_NAME = 'bluecipher'
-VERSION = '1.0'
+VERSION = '1.1'
 conf_path = 'conf/blue_cipher.conf.json'
 root_dir = os.path.abspath(os.path.dirname(__file__))
 
