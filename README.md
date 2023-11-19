@@ -8,7 +8,7 @@ Book ciphers are an old-school, slow and strong style of encryption that maps ea
 
     [ Ex ]: 10-7-23,11-12-8,...
 
-[ **NOTE** ]: The <character> segment of the code can be anything at that coordinate in the keytext file, case sensitive and including whitespaces for a more accurate transimition.
+[ **NOTE** ]: The <character> segment of the code can be (almost) anything at that coordinate in the keytext file (commas are not taken into account). That includes case sensitive letters, numbers, special characters and whitespaces for a more accurate transmission.
 
 BlueCipher automates the decryption of ciphertext or encryption of cleartext from both a CLI menu and using input/output files on the basis of a auto-generated keytext file created by concatonating chapter files in a order dictated by the keycode.
 
