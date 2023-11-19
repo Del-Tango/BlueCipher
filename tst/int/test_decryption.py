@@ -1,13 +1,20 @@
+#
+# Excellent Regards, the Alveare Solutions #!/Society -x
+#
+# Decryption Integration Tests
+
 import pytest
 import json
 import os
+import pysnooper
 
-from tst.conftest import shell_cmd, CONFIG
-from blue_cipher import write2file
+from tst.conftest import shell_cmd, sanitize_line, CONFIG
+from blue_cipher import write2file, file2list
 
 
+@pysnooper.snoop()
 def test_file_base_decryption_from_cli(bc_setup_teardown, bc_decryption_cmd,
-                                       decryption_data, conf_json):
+                                       decryption_data, encryption_data, conf_json):
     conf_json.update({'running_mode': 'decrypt', 'report': False})
     write2file(
         json.dumps(conf_json, indent=4), file_path=CONFIG['config_file'], mode='w'
@@ -23,9 +30,14 @@ def test_file_base_decryption_from_cli(bc_setup_teardown, bc_decryption_cmd,
     )
     out, err, exit = shell_cmd(' '.join(cmd))
     assert exit == 0
+    cleartext_content = file2list(CONFIG['cleartext_file'])
+    assert cleartext_content
+    for i in range(len(cleartext_content)):
+        assert sanitize_line(cleartext_content[i]) == sanitize_line(encryption_data[i])
 
+@pysnooper.snoop()
 def test_file_base_decryption_from_cli_silently(bc_setup_teardown, bc_decryption_cmd,
-                                                decryption_data, conf_json):
+                                                decryption_data, encryption_data, conf_json):
     conf_json.update({'running_mode': 'decrypt', 'report': False})
     write2file(
         json.dumps(conf_json, indent=4), file_path=CONFIG['config_file'], mode='w'
@@ -42,9 +54,14 @@ def test_file_base_decryption_from_cli_silently(bc_setup_teardown, bc_decryption
     )
     out, err, exit = shell_cmd(' '.join(cmd))
     assert exit == 0
+    cleartext_content = file2list(CONFIG['cleartext_file'])
+    assert cleartext_content
+    for i in range(len(cleartext_content)):
+        assert sanitize_line(cleartext_content[i]) == sanitize_line(encryption_data[i])
 
+@pysnooper.snoop()
 def test_file_base_decryption_from_cli_reported(bc_setup_teardown, bc_decryption_cmd,
-                                                decryption_data, conf_json):
+                                                decryption_data, encryption_data, conf_json):
     conf_json.update({'running_mode': 'decrypt', 'report': True})
     write2file(
         json.dumps(conf_json, indent=4), file_path=CONFIG['config_file'], mode='w'
@@ -62,9 +79,24 @@ def test_file_base_decryption_from_cli_reported(bc_setup_teardown, bc_decryption
     out, err, exit = shell_cmd(' '.join(cmd))
     assert exit == 0
     assert os.path.exists(CONFIG['report_file'])
+    cleartext_content = file2list(CONFIG['cleartext_file'])
+    assert cleartext_content
+    for i in range(len(cleartext_content)):
+        assert sanitize_line(cleartext_content[i]) == sanitize_line(encryption_data[i])
+    report_content = {}
+    with open(CONFIG['report_file'], 'r') as fl:
+        report_content = json.load(fl)
+    assert report_content['input']
+    assert isinstance(report_content['input'], list)
+    assert report_content['output']
+    assert isinstance(report_content['output'], list)
+    assert isinstance(report_content['msg'], str)
+    assert isinstance(report_content['exit'], int)
+    assert report_content['exit'] == 0
 
+@pysnooper.snoop()
 def test_file_base_decryption_from_config(bc_setup_teardown, bc_konfig_cmd,
-                                          decryption_data, conf_json):
+                                          decryption_data, encryption_data, conf_json):
     conf_json.update({'running_mode': 'decrypt'})
     write2file(
         json.dumps(conf_json, indent=4), file_path=CONFIG['config_file'], mode='w'
@@ -74,4 +106,8 @@ def test_file_base_decryption_from_config(bc_setup_teardown, bc_konfig_cmd,
     )
     out, err, exit = shell_cmd(' '.join(bc_konfig_cmd))
     assert exit == 0
+    cleartext_content = file2list(CONFIG['cleartext_file'])
+    assert cleartext_content
+    for i in range(len(cleartext_content)):
+        assert sanitize_line(cleartext_content[i]) == sanitize_line(encryption_data[i])
 

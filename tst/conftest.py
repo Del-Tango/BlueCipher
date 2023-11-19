@@ -1,3 +1,8 @@
+#
+# Excellent Regards, the Alveare Solutions #!/Society -x
+#
+# Pytest Config
+
 import pytest
 import os
 import json
@@ -6,6 +11,7 @@ from subprocess import Popen, PIPE
 from blue_cipher import load_config
 
 CURRENT_DIR = os.getcwd()
+PYTHON3 = './.venv/bin/python3'
 CONFIG = {
     'config_file': '%s/conf/blue_cipher.conf.json' % CURRENT_DIR,
     'current_dir': CURRENT_DIR,
@@ -29,32 +35,21 @@ CONFIG = {
 
 @pytest.fixture
 def decryption_data():
-    return ['1-1-1,1-2-3\n', '1-2-4,1-2-5\n']
+    return ['1-1-1,1-2-1,1-3-1,2-1-1,\n', '1-1-3,1-1-12,1-2-3,1-2-12,\n']
 
 @pytest.fixture
 def encryption_data():
-    return ['First line to encrypt\n', 'Second line to encrypt\n']
+    return ['cccc\n', 'aaaa\n']
 
 @pytest.fixture
 def conf_json():
-    return json.loads('''{
-    "keytext_dir":                "dta/text",
-    "keytext_file":               "bc_key.txt",
-    "cleartext_file":             "bc_clear.txt",
-    "ciphertext_file":            "bc_cipher.txt",
-    "report_file":                "bc_report.dump",
-    "running_mode":               "encrypt",
-    "data_source":                "file",
-    "keycode":                    "123456",
-    "cleanup":                    ["keytext_file"],
-    "full_cleanup":               ["keytext_file","cleartext_file","ciphertext_file","report_file"],
-    "report":                     true,
-    "silent":                     false
-}''')
+    return CONFIG.copy()
 
 # GENERAL
 
-#@pytest.fixture
+def sanitize_line(line_data):
+    return line_data.rstrip('\n').rstrip(',')
+
 def shell_cmd(command, user=None):
     if user:
         command = "su {} -c \'{}\'".format(user, command)
@@ -67,9 +62,9 @@ def shell_cmd(command, user=None):
 @pytest.fixture
 def bc_encryption_cmd(*args, **context):
     if not context.get('arg') or context['arg'].lower() == 'long':
-        cmd = ['./blue_cipher.py', '--action', 'encrypt']
+        cmd = [PYTHON3, './blue_cipher.py', '--action', 'encrypt']
     elif context['arg'].lower() == 'short':
-        cmd = ['./blue_cipher.py', '-a', 'encrypt']
+        cmd = [PYTHON3, './blue_cipher.py', '-a', 'encrypt']
     if args:
         cmd = cmd + list(args)
     return cmd
@@ -77,9 +72,9 @@ def bc_encryption_cmd(*args, **context):
 @pytest.fixture
 def bc_decryption_cmd(*args, **context):
     if not context.get('arg') or context['arg'].lower() == 'long':
-        cmd = ['./blue_cipher.py', '--action', 'decrypt']
+        cmd = [PYTHON3, './blue_cipher.py', '--action', 'decrypt']
     elif context['arg'].lower() == 'short':
-        cmd = ['./blue_cipher.py', '-a', 'decrypt']
+        cmd = [PYTHON3, './blue_cipher.py', '-a', 'decrypt']
     if args:
         cmd = cmd + list(args)
     return cmd
@@ -87,9 +82,9 @@ def bc_decryption_cmd(*args, **context):
 @pytest.fixture
 def bc_cleanup_cmd(*args, **context):
     if not context.get('arg') or context['arg'].lower() == 'long':
-        cmd = ['./blue_cipher.py', '--action', 'cleanup']
+        cmd = [PYTHON3, './blue_cipher.py', '--action', 'cleanup']
     elif context['arg'].lower() == 'short':
-        cmd = ['./blue_cipher.py', '-a', 'cleanup']
+        cmd = [PYTHON3, './blue_cipher.py', '-a', 'cleanup']
     if args:
         cmd = cmd + list(args)
     return cmd
@@ -97,9 +92,19 @@ def bc_cleanup_cmd(*args, **context):
 @pytest.fixture
 def bc_help_cmd(*args, **context):
     if not context.get('arg') or context['arg'].lower() == 'long':
-        cmd = ['./blue_cipher.py', '--help']
+        cmd = [PYTHON3, './blue_cipher.py', '--help']
     elif context['arg'].lower() == 'short':
-        cmd = ['./blue_cipher.py', '-h']
+        cmd = [PYTHON3, './blue_cipher.py', '-h']
+    if args:
+        cmd = cmd + list(args)
+    return cmd
+
+@pytest.fixture
+def bc_util_help_cmd(*args, **context):
+    if not context.get('arg') or context['arg'].lower() == 'long':
+        cmd = ['bluecipher', '--help']
+    elif context['arg'].lower() == 'short':
+        cmd = ['bluecipher', '-h']
     if args:
         cmd = cmd + list(args)
     return cmd
@@ -107,9 +112,9 @@ def bc_help_cmd(*args, **context):
 @pytest.fixture
 def bc_konfig_cmd(*args, **context):
     if not context.get('arg') or context['arg'].lower() == 'long':
-        cmd = ['./blue_cipher.py', '--konfig-file', CONFIG['config_file']]
+        cmd = [PYTHON3, './blue_cipher.py', '--konfig-file', CONFIG['config_file']]
     elif context['arg'].lower() == 'short':
-        cmd = ['./blue_cipher.py', '-K', 'encrypt']
+        cmd = [PYTHON3, './blue_cipher.py', '-K', 'encrypt']
     if args:
         cmd = cmd + list(args)
     return cmd

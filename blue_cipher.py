@@ -379,7 +379,7 @@ def cache_chaptertext_file_content(*text_file_names, **context):
 
 # ACTIONS
 
-#@pysnooper.snoop()
+@pysnooper.snoop()
 def encrypt_cleartext(*data, **context) -> list:
     '''
     [ INPUT  ]: data = ['first clear text', 'second clear text', ...]
@@ -426,7 +426,7 @@ def decrypt_ciphertext(*data, **context) -> list:
     cleartext, failures = [], 0
     for cipher in data:
         decrypted_cipher = []
-        character_set = [item for item in cipher.split(',') if item]
+        character_set = [item for item in cipher.rstrip('\n').split(',') if item]
         for char_code in character_set:
             if char_code not in ciphertext_cache:
                 decrypted_cipher.append(char_code)
@@ -491,23 +491,23 @@ def create_command_line_parser():
         '    [ Ex ]: Terminal based running mode\n'
         '       ~$ %prog \n\n'
         '    [ Ex ]: File based running mode decryption\n'
-        '       ~$ %prog \ \n'
-        '           --action decrypt \ \n'
-        '           --key-code 123456 \ \n'
-        '           --ciphertext-file bc_cipher.txt \ \n'
+        '       ~$ %prog \\ \n'
+        '           --action decrypt \\ \n'
+        '           --key-code 123456 \\ \n'
+        '           --ciphertext-file bc_cipher.txt \\ \n'
         '           --keytext-dir text\n\n'
         '    [ Ex ]: File based running mode encryption with no STDOUT\n'
-        '       ~$ %prog \ \n'
-        '           --action encrypt \ \n'
-        '           --key-code 123456 \ \n'
-        '           --cleartext-file bc_clear.txt \ \n'
-        '           --keytext-dir text \ \n'
+        '       ~$ %prog \\ \n'
+        '           --action encrypt \\ \n'
+        '           --key-code 123456 \\ \n'
+        '           --cleartext-file bc_clear.txt \\ \n'
+        '           --keytext-dir text \\ \n'
         '           --silent\n\n'
         '   [ Ex ]: Run with context data from JSON config file\n'
-        '       ~$ %prog \ \n'
+        '       ~$ %prog \\ \n'
         '           --konfig-file conf/blue_cipher.conf.json\n\n'
         '   [ Ex ]: Cleanup all generated files from disk\n'
-        '       ~$ %prog \ \n'
+        '       ~$ %prog \\ \n'
         '           --action cleanup'
     )
     return parser
@@ -610,6 +610,7 @@ def setup(**context):
     file_paths = ['keytext_file', 'cleartext_file', 'ciphertext_file']
     dir_paths = ['keytext_dir']
     errors = []
+    load = load_text_files(**context)
     for fl_path in file_paths:
         if fl_path not in context or os.path.exists(context[fl_path]):
             continue
@@ -704,8 +705,8 @@ def init_file_running_mode(**conf):
     global action_result
     if not conf.get('keycode'):
         keycode = fetch_keycode_from_user()
-    src_file = conf.get('ciphertext_file') if conf.get('running_mode') \
-        == 'decrypt' else conf.get('cleartext_file')
+    src_file = conf.get('ciphertext_file') \
+        if conf.get('running_mode') == 'decrypt' else conf.get('cleartext_file')
     data = [
         item.rstrip('\n') if item != '\n' else item for item in file2list(src_file)
     ]
@@ -780,8 +781,10 @@ def init():
                 silence=CONFIG.get('silent'), done=True
             )
             exit(action_result['exit'])
-        load = load_text_files(**CONFIG)
+
+#       load = load_text_files(**CONFIG)
         lock_n_load = setup(**CONFIG)
+
         check = check_preconditions(**CONFIG)
         if not check:
             details = action_result.get('msg', '')
@@ -817,4 +820,6 @@ def init():
 
 if __name__ == '__main__':
     init()
+
+
 

@@ -122,9 +122,9 @@ function build() {
 
 function install() {
     echo "[ INSTALL ]: Source distribution archive..."
-    if ! ${VENV_DIR}/bin/python3 -m pip install $(find ./dist -type f -name '*.tar.gz'); then
+    if ! ${VENV_DIR}/bin/python3 -m pip install -i 'https://pypi.python.org/simple/' $(find ./dist -type f -name '*.tar.gz'); then
         echo "[ NOK ]: Failed to install source distribution package!"
-        return $?
+        return 1
     else
         echo "[ OK ]: Installed source distribution package!"
     fi

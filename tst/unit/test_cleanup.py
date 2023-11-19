@@ -1,6 +1,40 @@
+#
+# Excellent Regards, the Alveare Solutions #!/Society -x
+#
+# Cleanup Unit Tests
+
 import pytest
+import os
+import pysnooper
+
+from tst.conftest import shell_cmd
 from blue_cipher import *
 
-# TODO
-def test_cleanup():
-    pass
+
+@pysnooper.snoop()
+def test_cleanup(bc_setup_teardown, bc_encryption_cmd, encryption_data, conf_json):
+    create_cleartext = write2file(
+        *encryption_data, file_path=conf_json['cleartext_file'], mode='w'
+    )
+    assert create_cleartext
+    out, err, exit = shell_cmd(' '.join(bc_encryption_cmd))
+    assert exit == 0
+    conf_json['report'] = True
+    result = cleanup(**conf_json)
+    assert result
+    for label in conf_json['cleanup']:
+        assert not os.path.exists(conf_json[label])
+
+@pysnooper.snoop()
+def test_full_cleanup(bc_setup_teardown, bc_encryption_cmd, encryption_data, conf_json):
+    create_cleartext = write2file(
+        *encryption_data, file_path=conf_json['cleartext_file'], mode='w'
+    )
+    assert create_cleartext
+    out, err, exit = shell_cmd(' '.join(bc_encryption_cmd))
+    assert exit == 0
+    conf_json['report'] = True
+    result = cleanup(full=True, **conf_json)
+    assert result
+    for label in conf_json['full_cleanup']:
+        assert not os.path.exists(conf_json[label])
