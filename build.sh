@@ -41,6 +41,7 @@ EOF
 }
 
 function display_usage() {
+    format_banner
     cat <<EOF
     [ Usage ]: ~$ $0 (BUILD | INSTALL)
 
@@ -56,6 +57,8 @@ function display_usage() {
             |                        and overwrites all log files with a timestamp.
 
         -y  | --yes                  Skips all user interactive prompts.
+
+        -r  | --run                  Execute installed python package with no arguments.
 
     [ Example ]: Install dependencies -
 
@@ -82,6 +85,12 @@ EOF
 }
 
 # ACTIONS
+
+function run() {
+    source ${VENV_DIR}/bin/activate
+    ${PACKAGE_NAME}
+    return $?
+}
 
 function setup() {
     echo "[ SETUP ]: Dependencies..."
@@ -191,6 +200,10 @@ for opt in "${@}"; do
     -h | --help)
         display_usage
         exit 0
+        ;;
+    -r | --run)
+        run
+        exit $?
         ;;
     -y | --yes)
         YES='on'
